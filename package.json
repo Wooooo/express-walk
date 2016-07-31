@@ -1,0 +1,39 @@
+{
+  "name": "express-walk",
+  "version": "0.0.1",
+  "description": "Express Controller Manager based on file structure",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wooooo/express-walk.git"
+  },
+  "keywords": [
+    "express",
+    "middleware",
+    "controller",
+    "handler",
+    "file",
+    "structure"
+  ],
+  "author": "Taewoo Kim <xodn4195@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Wooooo/express-walk/issues"
+  },
+  "homepage": "https://github.com/Wooooo/express-walk#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "glob": "^7.0.5",
+    "object-assign": "^4.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "co-mocha": "^1.1.2",
+    "mocha": "^2.5.3",
+    "supertest": "^2.0.0",
+    "supertest-as-promised": "^3.2.0"
+  }
+}
