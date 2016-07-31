@@ -19,7 +19,10 @@ describe('#Express Walk', () => {
 
     describe('if empty directory \'case1\' is given,', () => {
         it('should perform walk and return empty list.', () => {
-            var routes = walk(app)(path.join(__dirname, './cases/case1'));
+            var router = walk(path.join(__dirname, './cases/case1'));
+            var routes = router.locals.routeList;
+
+            app.use(router);
 
             expect(routes).to.have.length(0);
         });
@@ -27,9 +30,14 @@ describe('#Express Walk', () => {
 
     describe('if directory with diverse versions \'case2\' is given', () => {
         it('should perform walk and return url list.', function*() {
-            var routes = walk(app)(path.join(__dirname, './cases/case2'));
+            var router = walk(path.join(__dirname, './cases/case2'));
+            var routes = router.locals.routeList;
+
+            app.use(router);
 
             expect(routes).to.have.length(5);
+
+            console.log(routes);
 
             for(var i = 0 ; i < routes.length ; i++) {
                 var method = routes[i].split(' ')[0];
@@ -43,9 +51,14 @@ describe('#Express Walk', () => {
 
     describe('if directory \'case3\' having param directory is given,', () => {
         it('should perform walk and return url list.', function*() {
-            var routes = walk(app)(path.join(__dirname, './cases/case3'));
+            var router = walk(path.join(__dirname, './cases/case3'));
+            var routes = router.locals.routeList;
+
+            app.use(router);
 
             expect(routes).to.have.length(4);
+
+            console.log(routes);
 
             var requests = [
                 'GET /api/users/1000',
@@ -72,9 +85,14 @@ describe('#Express Walk', () => {
 
     describe('if directory having preservePrefix is given,', () => {
         it('should perform walk and return url list.', function*() {
-            var routes = walk(app)(path.join(__dirname, './cases/case4'));
+            var router = walk(path.join(__dirname, './cases/case4'));
+            var routes = router.locals.routeList;
+
+            app.use(router);
 
             expect(routes).to.have.length(3);
+
+            console.log(routes);
 
             var requests = [
                 'PUT /api/companies',
@@ -89,6 +107,24 @@ describe('#Express Walk', () => {
                 yield agent[method.toLowerCase()](url)
                     .expect(200);
             }
+        });
+    });
+
+    describe('if rootPath is not given', () => {
+        it('should throw an error.', function*() {
+            expect(walk).to.throw( '\'rootPath\' parameter should be passed.' );
+        });
+    });
+
+    describe('if option is given but doesn\'t contain rootPath', () => {
+        it('should throw an error.', function() {
+            expect(walk.bind(null, {})).to.throw( '\'rootPath\' parameter should be passed.' );
+        });
+    });
+
+    describe('if rootPath is given but not existing path', () => {
+        it('should throw an error.', function() {
+            expect(walk.bind(null, path.join(__dirname, './cases/case0'))).to.throw(Error);
         });
     });
 });
